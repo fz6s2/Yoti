@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/v1.0.0/01_create_cleaning_condition_table.yaml
+  - include:
+      file: db/changelog/v1.0.0/02_create_cleaning_result_table.yaml

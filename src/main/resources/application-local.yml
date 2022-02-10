@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: "${POSTGRES_URL: jdbc:postgresql://localhost:5432/cleaning_db?currentSchema=cleaning_db}"
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}

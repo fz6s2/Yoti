@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: v1.0.0_02
+      author: pakholiuk.in@gmail.com
+      changes:
+        - createTable:
+            tableName: cleaning_result
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: jsonb
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cleaning_condition_id
+                  type: int4
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cleaninig_result_to_cleaning_condition
+                    references: cleaning_condition(id)
+      rollback:
+        - sql:
+            sql: DROP TABLE IF EXISTS cleaning_result;
+
+
+
+
+
+
+
+

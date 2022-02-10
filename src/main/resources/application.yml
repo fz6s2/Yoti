@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: "${POSTGRES_URL}"
+    username: "${POSTGRES_USER}"
+    password: "${POSTGRES_PASSWORD}"
+
+app:
+  constraints:
+    route-length: 1000
+    room-size-x: 100
+    room-size-y: 100
+    patch-count: 1000
