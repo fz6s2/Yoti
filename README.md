@@ -28,16 +28,16 @@ Program input is in a json payload.
 
 Example:
 
-```javascript
+```yml
 {
-  "roomSize" : [5, 5],
-  "coords" : [1, 2],
-  "patches" : [
-    [1, 0],
-    [2, 2],
-    [2, 3]
-  ],
-  "instructions" : "NNESEESWNWW"
+    "roomSize": [5, 5],
+    "coords" : [1, 2],
+    "patches" : [
+        [1, 0],
+        [2, 2],
+        [2, 3]
+    ],
+    "instructions" : "NNESEESWNWW"
 }
 ```
 
@@ -46,10 +46,10 @@ Service output returns a json payload.
 
 Example (matching the input above):
 
-```javascript
+```yml
 {
-  "coords" : [1, 3],
-  "patches" : 1
+    "coords" : [1, 3],
+    "patches" : 1
 }
 ```
 
@@ -76,3 +76,21 @@ Service provides 2 endpoints of API for making HTTP requests:
 
 - POST /v1/cleanings, starts cleaning and returns result (as in the example in the section `Input`)
 - GET /v1/cleanings, returns history of cleanings with paging. It is possible to specify data range using query params `size`, `page`. For example `GET /v1/cleanings?size=10&page=1`. By default, page = 0, size = 10.  
+
+In case of a request validation error the service returns 400 HTTP status code with body like this:
+
+```yml
+{
+    "description": "Request validation error",
+        "timestamp": "2022-02-11 07:59:09",
+        "errorDetails": [
+        {
+            "property": "roomSize",
+            "message": "array length must be 2"
+        }
+    ]
+}
+```
+
+## Logging
+The service supports logging, by default to STDOUT. To configure this use `logback.xml` file.

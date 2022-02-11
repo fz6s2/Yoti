@@ -85,6 +85,11 @@ public class CleaningValidator {
         if(request.getRoomSize()[1] < 1 || request.getRoomSize()[1] > properties.getRoomSizeY()) {
             errors.put("roomSize", "Y size must be between 1 and " + properties.getRoomSizeY());
         }
+
+        if (!errors.isEmpty()) {
+            throw new ValidateException(errors, "Request validation error");
+        }
+
         if(request.getCoords()[0] < 0 || request.getCoords()[0] >= request.getRoomSize()[0]) {
             errors.put("coords", "X point must be between 0 and " + max(0, request.getRoomSize()[0] - 1));
         }
