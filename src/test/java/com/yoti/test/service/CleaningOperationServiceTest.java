@@ -19,8 +19,9 @@ import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class CleaningOperationServiceTest {
+
     @Mock
-    CleaningValidator validator;
+    CleaningValidator cleaningValidator;
     @Mock
     CleaningOperationsMapper mapper;
     @Mock
@@ -31,13 +32,14 @@ public class CleaningOperationServiceTest {
     CleaningOperationService cleaningOperationService;
 
     @Test
-    void successCleaningOperation() {
+    void successStartCleaningTest() {
         CleaningRequest cleaningRequest = getRequestCleaning();
         CleaningCondition cleaningCondition = getCleaningCondition();
         CleaningResult cleaningResult = getCleaningResult();
         CleaningResponse cleaningResponseExpected = getResponseCleaning();
 
-        doNothing().when(validator).validate(cleaningRequest);
+        doNothing().when(cleaningValidator).validate(cleaningRequest);
+
         when(mapper.toDto(cleaningRequest)).thenReturn(cleaningCondition);
         when(cleaningProcessingService.process(cleaningCondition)).thenReturn(cleaningResult);
         when(mapper.toResponse(cleaningResult)).thenReturn(cleaningResponseExpected);
@@ -48,7 +50,7 @@ public class CleaningOperationServiceTest {
         assertNotNull(cleaningResponse);
         assertEquals(cleaningResponseExpected, cleaningResponse);
 
-        verify(validator, times(1)).validate(cleaningRequest);
+        verify(cleaningValidator, times(3)).validate(cleaningRequest);
         verify(mapper, times(1)).toDto(cleaningRequest);
         verify(mapper, times(1)).toResponse(cleaningResult);
         verify(cleaningDataAccessService, times(1)).save(cleaningRequest, cleaningResponseExpected);
@@ -71,20 +73,18 @@ public class CleaningOperationServiceTest {
         List<Direction> route = new ArrayList<>();
         route.add(Direction.NORTH);
 
-        return CleaningCondition.builder()
-            .roomSize(new PairXY(5,5))
-            .startPos(new PairXY(1,0))
-            .patches(patches)
-            .route(route)
-            .build();
+        return new CleaningCondition()
+            .setRoomSize(new PairXY(5,5))
+            .setStartPos(new PairXY(1,0))
+            .setPatches(patches)
+            .setRoute(route);
     }
 
     CleaningRequest getRequestCleaning() {
         int [] roomSize = {5, 5};
         int [] coords = {1, 0};
         int [][] patches = {{1, 0}};
-        //return new RequestCleaning(roomSize, coords, patches, "N");
-        return null;
+        return new CleaningRequest(roomSize, coords, patches, "N");
     }
 
 }

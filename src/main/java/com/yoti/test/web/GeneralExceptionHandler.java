@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GeneralExceptionHandler extends DefaultHandlerExceptionResolver {
+
     @ExceptionHandler(MapperException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiErrorResponse handleRouteException(MapperException ex) {

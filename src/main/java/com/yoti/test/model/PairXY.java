@@ -1,9 +1,19 @@
 package com.yoti.test.model;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+/**
+ * The {@code PairXY} class represents 2 dimensional coordinates of an object in Robotic Hoover system.
+ *
+ */
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PairXY {
-    int x;
-    int y;
+
+    private int x;
+    private int y;
 }

@@ -6,15 +6,28 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+/**
+ * The {@code CleaningProcessingService} class represents a service to control robotic hoover work.
+ * It processes a clean-up request, acting like a robotic hoover main processor,
+ * creates a room map, indicates dirt coordinates on it and leads hoover to its goal.
+ *
+ * @see CleaningCondition
+ * @see CleaningResult
+ */
+
 @Service
 @RequiredArgsConstructor
 public class CleaningProcessingService {
+
     public CleaningResult process(CleaningCondition cleaningCondition) {
-        List<PairXY> currentPatches = new ArrayList<>(cleaningCondition.getPatches());
+        List<PairXY> currentPatches = cleaningCondition.getPatches().stream()
+            .distinct()
+            .collect(Collectors.toList());
         PairXY currentPos = new PairXY(cleaningCondition.getStartPos().getX(), cleaningCondition.getStartPos().getY());
         PairXY roomSize = new PairXY(cleaningCondition.getRoomSize().getX(), cleaningCondition.getRoomSize().getY());
 
@@ -26,6 +39,11 @@ public class CleaningProcessingService {
                 patchCount++;
             }
             currentPos = getNextPosition(currentPos, direction, roomSize);
+        }
+
+        if (isPatchOnPosition(currentPatches, currentPos)) {
+            cleanPatch(currentPatches, currentPos);
+            patchCount++;
         }
 
         return new CleaningResult(currentPos, patchCount);

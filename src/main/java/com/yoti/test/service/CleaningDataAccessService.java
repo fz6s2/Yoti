@@ -11,9 +11,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The {@code CleaningDataAccessService} class represents a service to control access to "Cleaning" repositories layer.
+ *
+ */
+
 @Service
 @RequiredArgsConstructor
 public class CleaningDataAccessService {
+
     private final CleaningConditionRepository conditionRepository;
     private final CleaningDataAccessMapper mapper;
 

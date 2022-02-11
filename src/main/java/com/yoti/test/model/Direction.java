@@ -2,7 +2,13 @@ package com.yoti.test.model;
 
 import java.util.Arrays;
 
+/**
+ * The {@code Direction} class represents a course for a robotic hoover based on compass main directions.
+ *
+ */
+
 public enum Direction {
+
     NORTH("N"),
     EAST("E"),
     SOUTH("S"),

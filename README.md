@@ -65,9 +65,9 @@ It is not recommended modifying `application.yml` because it is involved in both
 
 ## Configuration
 By default, service uses constraints for request values:
-- hoover route length (instructions): 1000
-- room size: 100 x 100
-- patch count: 1000
+- MAX hoover route length (instructions): 1000
+- MAX room size: 1000 x 1000
+- MAX patch count: 1000
 
 It is possible to change them in `application.yml` files.
 

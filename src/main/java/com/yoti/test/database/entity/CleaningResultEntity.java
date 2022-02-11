@@ -10,6 +10,11 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * The {@code CleaningResultEntity} class represents a result of a completed clean-up operation.
+ *
+ */
+
 @Entity
 @Table(name = "cleaning_result")
 @Data
@@ -17,6 +22,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class CleaningResultEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cleaning_result_seq")
     @SequenceGenerator(name = "cleaning_condition_seq", sequenceName = "cleaning_result_id_seq", allocationSize = 1)

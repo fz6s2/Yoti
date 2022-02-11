@@ -6,18 +6,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoti.test.config.CleaningConstraintProperties;
 import com.yoti.test.exception.ValidateException;
 import com.yoti.test.model.CleaningRequest;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-
 import org.junit.jupiter.params.provider.MethodSource;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.stream.Stream;
 
-public class CleaningValidatorTest {
-    CleaningValidator cleaningValidator;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+public class ValuesCleaningValidatorTest {
+
+    ValuesCleaningValidator validator;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
@@ -28,17 +29,8 @@ public class CleaningValidatorTest {
             .setRoomSizeY(5)
             .setRouteLength(15);
 
-        cleaningValidator = new CleaningValidator(properties);
+        validator = new ValuesCleaningValidator(properties);
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-    }
-
-    @ParameterizedTest(name = "Wrong request data test: {0}")
-    @MethodSource("wrongRequestData")
-    void wrongRequestDataTest(String json) throws JsonProcessingException {
-        CleaningRequest request = objectMapper.readValue(json, CleaningRequest.class);
-
-        ValidateException exception = assertThrows(ValidateException.class,
-            () -> cleaningValidator.validate(request));
     }
 
     @ParameterizedTest(name = "Correct request data test: {0}")
@@ -46,7 +38,15 @@ public class CleaningValidatorTest {
     void correctRequestDataTest(String json) throws JsonProcessingException {
         CleaningRequest request = objectMapper.readValue(json, CleaningRequest.class);
 
-        cleaningValidator.validate(request);
+        validator.validate(request);
+    }
+
+    @ParameterizedTest(name = "Wrong request data test: {0}")
+    @MethodSource("wrongRequestData")
+    void wrongRequestDataTest(String json) throws JsonProcessingException {
+        CleaningRequest request = objectMapper.readValue(json, CleaningRequest.class);
+
+        assertThrows(ValidateException.class, () -> validator.validate(request));
     }
 
     static Stream<Arguments> correctRequestData() {
@@ -84,26 +84,11 @@ public class CleaningValidatorTest {
             Arguments.of("{ roomSize: [5, 5], coords: [0, 100], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
             Arguments.of("{ roomSize: [5, 5], coords: [100, 100], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
             Arguments.of("{ roomSize: [5, 5], coords: [5, 5], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5, 1], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
             Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[5, 5], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2, 1], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0, 1], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0], [2, 2, 1], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3, 1]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0, 1], [2, 2, 1], [2, 3, 1]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
             Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 100], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
             Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[100, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
             Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[100, 100], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3], [2, 0]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWWNESWENS\" }"),
             Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"\" }"),
-            Arguments.of("{ roomSize: [], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], instructions: \"NNESEESWNWW\" }"),
-            Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3]] }"),
             Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"ABN\" }"),
             Arguments.of("{ roomSize: [5, 5], coords: [1, 2], patches: [[1, 0], [2, 2], [2, 3]], instructions: \"NNES EESWNWW\" }")
         );

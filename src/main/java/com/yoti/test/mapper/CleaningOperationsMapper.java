@@ -20,19 +20,17 @@ public class CleaningOperationsMapper {
 
         List<PairXY> patches = Arrays.stream(cleaningRequest.getPatches())
             .map(pos -> new PairXY(pos[0], pos[1]))
-            .distinct()
             .collect(Collectors.toList());
 
         List<Direction> directions = Arrays.stream(cleaningRequest.getInstructions().split(""))
             .map(Direction::of)
             .collect(Collectors.toList());
 
-        return CleaningCondition.builder()
-            .roomSize(roomSize)
-            .startPos(startPos)
-            .patches(patches)
-            .route(directions)
-            .build();
+        return new CleaningCondition()
+            .setRoomSize(roomSize)
+            .setStartPos(startPos)
+            .setPatches(patches)
+            .setRoute(directions);
     }
 
     public CleaningResponse toResponse(CleaningResult cleaningResult) {

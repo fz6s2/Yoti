@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ValidateException extends RuntimeException {
+
     @Getter
     private Map<String, String> errors = new HashMap<>();
 

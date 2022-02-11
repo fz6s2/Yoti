@@ -9,9 +9,15 @@ import lombok.Value;
 
 import java.time.LocalDateTime;
 
+/**
+ * The {@code CommonResponseCleaning} class represents a model, archived result of a clean-up.
+ *
+ */
+
 @Value
 @Builder
 public class CommonResponseCleaning {
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     LocalDateTime requestTime;

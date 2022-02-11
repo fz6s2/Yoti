@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "app.constraints")
 @Accessors(chain = true)
 public class CleaningConstraintProperties {
+
     @Value("${app.constraints.route-length:1000}")
     private int routeLength;
     @Value("${app.constraints.room-size-x:100}")

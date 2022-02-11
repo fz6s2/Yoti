@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Component
 public class CleaningDataAccessMapper {
+
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
     public CleaningConditionEntity toEntity(CleaningRequest cleaningRequest) {

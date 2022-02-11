@@ -11,6 +11,6 @@ spring:
 app:
   constraints:
     route-length: 1000
-    room-size-x: 100
-    room-size-y: 100
+    room-size-x: 1000
+    room-size-y: 1000
     patch-count: 1000

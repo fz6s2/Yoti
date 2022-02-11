@@ -13,6 +13,7 @@ import java.util.List;
 
 @Value
 public class ApiErrorResponse {
+
     String description;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -32,5 +33,6 @@ public class ApiErrorResponse {
         this.description = description;
         this.timestamp = LocalDateTime.now();
         this.errorDetails = details;
+
     }
 }
