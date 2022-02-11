@@ -94,3 +94,8 @@ In case of a request validation error the service returns 400 HTTP status code w
 
 ## Logging
 The service supports logging, by default to STDOUT. To configure this use `logback.xml` file.
+
+## TODO
+
+- Deep separating models (hoover, room, patch)
+- Swagger
