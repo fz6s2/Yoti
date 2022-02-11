@@ -97,5 +97,6 @@ The service supports logging, by default to STDOUT. To configure this use `logba
 
 ## TODO
 
-- Deep separating models (hoover, room, patch)
+- Deep separating of models (hoover, room, patch)
 - Swagger
+- Missing unit-test
