@@ -32,26 +32,26 @@ public class CleaningOperationServiceTest {
 
     @Test
     void successCleaningOperation() {
-        RequestCleaning requestCleaning = getRequestCleaning();
+        CleaningRequest cleaningRequest = getRequestCleaning();
         CleaningCondition cleaningCondition = getCleaningCondition();
         CleaningResult cleaningResult = getCleaningResult();
-        ResponseCleaning responseCleaningExpected = getResponseCleaning();
+        CleaningResponse cleaningResponseExpected = getResponseCleaning();
 
-        doNothing().when(validator).validate(requestCleaning);
-        when(mapper.toDto(requestCleaning)).thenReturn(cleaningCondition);
+        doNothing().when(validator).validate(cleaningRequest);
+        when(mapper.toDto(cleaningRequest)).thenReturn(cleaningCondition);
         when(cleaningProcessingService.process(cleaningCondition)).thenReturn(cleaningResult);
-        when(mapper.toResponse(cleaningResult)).thenReturn(responseCleaningExpected);
-        doNothing().when(cleaningDataAccessService).save(requestCleaning, responseCleaningExpected);
+        when(mapper.toResponse(cleaningResult)).thenReturn(cleaningResponseExpected);
+        doNothing().when(cleaningDataAccessService).save(cleaningRequest, cleaningResponseExpected);
 
-        ResponseCleaning responseCleaning = cleaningOperationService.startCleaning(requestCleaning);
+        CleaningResponse cleaningResponse = cleaningOperationService.startCleaning(cleaningRequest);
 
-        assertNotNull(responseCleaning);
-        assertEquals(responseCleaningExpected, responseCleaning);
+        assertNotNull(cleaningResponse);
+        assertEquals(cleaningResponseExpected, cleaningResponse);
 
-        verify(validator, times(1)).validate(requestCleaning);
-        verify(mapper, times(1)).toDto(requestCleaning);
+        verify(validator, times(1)).validate(cleaningRequest);
+        verify(mapper, times(1)).toDto(cleaningRequest);
         verify(mapper, times(1)).toResponse(cleaningResult);
-        verify(cleaningDataAccessService, times(1)).save(requestCleaning, responseCleaningExpected);
+        verify(cleaningDataAccessService, times(1)).save(cleaningRequest, cleaningResponseExpected);
 
     }
 
@@ -59,9 +59,9 @@ public class CleaningOperationServiceTest {
         return new CleaningResult(new PairXY(0, 0), 0);
     }
 
-    ResponseCleaning getResponseCleaning() {
+    CleaningResponse getResponseCleaning() {
         int [] coords = {0, 0};
-        return new ResponseCleaning(coords, 0);
+        return new CleaningResponse(coords, 0);
     }
 
     CleaningCondition getCleaningCondition() {
@@ -79,7 +79,7 @@ public class CleaningOperationServiceTest {
             .build();
     }
 
-    RequestCleaning getRequestCleaning() {
+    CleaningRequest getRequestCleaning() {
         int [] roomSize = {5, 5};
         int [] coords = {1, 0};
         int [][] patches = {{1, 0}};

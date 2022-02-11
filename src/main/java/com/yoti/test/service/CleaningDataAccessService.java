@@ -18,9 +18,9 @@ public class CleaningDataAccessService {
     private final CleaningDataAccessMapper mapper;
 
     @Transactional
-    public void save(RequestCleaning requestCleaning, ResponseCleaning responseCleaning) {
-        CleaningConditionEntity cleaningConditionEntity = mapper.toEntity(requestCleaning);
-        CleaningResultEntity cleaningResultEntity = mapper.toEntity(responseCleaning);
+    public void save(CleaningRequest cleaningRequest, CleaningResponse cleaningResponse) {
+        CleaningConditionEntity cleaningConditionEntity = mapper.toEntity(cleaningRequest);
+        CleaningResultEntity cleaningResultEntity = mapper.toEntity(cleaningResponse);
         cleaningConditionEntity.setCleaningResult(cleaningResultEntity);
         cleaningResultEntity.setCleaningCondition(cleaningConditionEntity);
 

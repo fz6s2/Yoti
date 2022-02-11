@@ -15,17 +15,17 @@ public class CleaningOperationService {
     private final CleaningDataAccessService cleaningDataAccessService;
     private final CleaningProcessingService cleaningProcessingService;
 
-    public ResponseCleaning startCleaning(RequestCleaning requestCleaning) {
-        validator.validate(requestCleaning);
+    public CleaningResponse startCleaning(CleaningRequest cleaningRequest) {
+        validator.validate(cleaningRequest);
 
-        CleaningCondition cleaningCondition = mapper.toDto(requestCleaning);
+        CleaningCondition cleaningCondition = mapper.toDto(cleaningRequest);
 
         CleaningResult cleaningResult = cleaningProcessingService.process(cleaningCondition);
 
-        ResponseCleaning responseCleaning = mapper.toResponse(cleaningResult);
+        CleaningResponse cleaningResponse = mapper.toResponse(cleaningResult);
 
-        cleaningDataAccessService.save(requestCleaning, responseCleaning);
+        cleaningDataAccessService.save(cleaningRequest, cleaningResponse);
 
-        return responseCleaning;
+        return cleaningResponse;
     }
 }

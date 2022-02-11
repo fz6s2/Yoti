@@ -1,7 +1,6 @@
 package com.yoti.test.web;
 
 import com.yoti.test.exception.MapperException;
-import com.yoti.test.exception.RouteException;
 import com.yoti.test.exception.ValidateException;
 import com.yoti.test.model.ApiErrorDetail;
 import com.yoti.test.model.ApiErrorResponse;
@@ -17,13 +16,6 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GeneralExceptionHandler extends DefaultHandlerExceptionResolver {
-
-    @ExceptionHandler(RouteException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrorResponse handleRouteException(RouteException ex) {
-        return getErrorResponse(ex);
-    }
-
     @ExceptionHandler(MapperException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiErrorResponse handleRouteException(MapperException ex) {

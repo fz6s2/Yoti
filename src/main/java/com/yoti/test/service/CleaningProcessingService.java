@@ -1,7 +1,5 @@
 package com.yoti.test.service;
 
-import com.yoti.test.exception.RoomIndexOfBoundException;
-import com.yoti.test.exception.RouteException;
 import com.yoti.test.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,7 @@ import static java.lang.Math.min;
 @Service
 @RequiredArgsConstructor
 public class CleaningProcessingService {
-    public CleaningResult process(CleaningCondition cleaningCondition) throws RouteException {
+    public CleaningResult process(CleaningCondition cleaningCondition) {
         List<PairXY> currentPatches = new ArrayList<>(cleaningCondition.getPatches());
         PairXY currentPos = new PairXY(cleaningCondition.getStartPos().getX(), cleaningCondition.getStartPos().getY());
         PairXY roomSize = new PairXY(cleaningCondition.getRoomSize().getX(), cleaningCondition.getRoomSize().getY());
@@ -23,9 +21,8 @@ public class CleaningProcessingService {
         int patchCount = 0;
 
         for(Direction direction: cleaningCondition.getRoute()) {
-            validatePosition(currentPos, roomSize);
-            if (isPitchOnPosition(currentPatches, currentPos)) {
-                cleanPitch(currentPatches, currentPos);
+            if (isPatchOnPosition(currentPatches, currentPos)) {
+                cleanPatch(currentPatches, currentPos);
                 patchCount++;
             }
             currentPos = getNextPosition(currentPos, direction, roomSize);
@@ -34,21 +31,11 @@ public class CleaningProcessingService {
         return new CleaningResult(currentPos, patchCount);
     }
 
-    private void validatePosition(PairXY pos, PairXY roomSize) throws RouteException {
-        if(pos.getX() < 0 || pos.getX() > roomSize.getX()) {
-            throw new RoomIndexOfBoundException("Hoover route is outside the room, position: " + pos);
-        }
-
-        if(pos.getY() < 0 || pos.getY() > roomSize.getY()) {
-            throw new RoomIndexOfBoundException("Hoover route is outside the room, position: " + pos);
-        }
-    }
-
-    private boolean isPitchOnPosition(List<PairXY> pitches, PairXY pos) {
+    private boolean isPatchOnPosition(List<PairXY> pitches, PairXY pos) {
         return pitches.contains(pos);
     }
 
-    private void cleanPitch(List<PairXY> currentPatches, PairXY pos) {
+    private void cleanPatch(List<PairXY> currentPatches, PairXY pos) {
         currentPatches.remove(pos);
     }
 

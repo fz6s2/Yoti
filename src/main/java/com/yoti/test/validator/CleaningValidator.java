@@ -3,7 +3,7 @@ package com.yoti.test.validator;
 import com.yoti.test.config.CleaningConstraintProperties;
 import com.yoti.test.exception.ValidateException;
 import com.yoti.test.model.Direction;
-import com.yoti.test.model.RequestCleaning;
+import com.yoti.test.model.CleaningRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +16,13 @@ import static java.lang.Math.max;
 public class CleaningValidator {
     private final CleaningConstraintProperties properties;
 
-    public void validate(RequestCleaning request) {
+    public void validate(CleaningRequest request) {
         checkNull(request);
         checkConstraints(request);
         checkValues(request);
     }
 
-    private void checkNull(RequestCleaning request) throws ValidateException {
+    private void checkNull(CleaningRequest request) throws ValidateException {
         if(request == null) {
             throw new ValidateException("Request cannot be empty");
         }
@@ -46,7 +46,7 @@ public class CleaningValidator {
         }
     }
 
-    private void checkConstraints(RequestCleaning request) throws ValidateException {
+    private void checkConstraints(CleaningRequest request) throws ValidateException {
         Map<String, String> errors = new HashMap<>();
         if(request.getRoomSize().length != 2) {
             errors.put("roomSize", "array length must be 2");
@@ -76,7 +76,7 @@ public class CleaningValidator {
         }
     }
 
-    private void checkValues(RequestCleaning request) throws ValidateException {
+    private void checkValues(CleaningRequest request) throws ValidateException {
         Map<String, String> errors = new HashMap<>();
 
         if(request.getRoomSize()[0] < 1 || request.getRoomSize()[0] > properties.getRoomSizeX()) {

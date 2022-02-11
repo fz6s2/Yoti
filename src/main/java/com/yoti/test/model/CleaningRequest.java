@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestCleaning {
+public class CleaningRequest {
     private int [] roomSize;
     private int [] coords;
     private int [][] patches;

@@ -3,7 +3,7 @@ package com.yoti.test.model;
 import lombok.Value;
 
 @Value
-public class ResponseCleaning {
+public class CleaningResponse {
     int [] coords;
     int patches;
 }

@@ -1,8 +1,8 @@
 package com.yoti.test.web;
 
 import com.yoti.test.model.CommonResponseCleaning;
-import com.yoti.test.model.RequestCleaning;
-import com.yoti.test.model.ResponseCleaning;
+import com.yoti.test.model.CleaningRequest;
+import com.yoti.test.model.CleaningResponse;
 import com.yoti.test.service.CleaningDataAccessService;
 import com.yoti.test.service.CleaningOperationService;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ public class CleaningController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseCleaning startCleaning(@RequestBody RequestCleaning request) {
+    public CleaningResponse startCleaning(@RequestBody CleaningRequest request) {
         return cleaningService.startCleaning(request);
     }
 

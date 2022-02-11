@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 public class CleaningDataAccessMapper {
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
-    public CleaningConditionEntity toEntity(RequestCleaning requestCleaning) {
+    public CleaningConditionEntity toEntity(CleaningRequest cleaningRequest) {
         try {
-            String json = jsonMapper.writeValueAsString(requestCleaning);
+            String json = jsonMapper.writeValueAsString(cleaningRequest);
 
             return new CleaningConditionEntity()
                 .setData(json)
@@ -25,9 +25,9 @@ public class CleaningDataAccessMapper {
         }
     }
 
-    public CleaningResultEntity toEntity(ResponseCleaning responseCleaning) {
+    public CleaningResultEntity toEntity(CleaningResponse cleaningResponse) {
         try {
-            String json = jsonMapper.writeValueAsString(responseCleaning);
+            String json = jsonMapper.writeValueAsString(cleaningResponse);
 
             return new CleaningResultEntity()
                 .setData(json)

@@ -5,8 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yoti.test.config.CleaningConstraintProperties;
 import com.yoti.test.exception.ValidateException;
-import com.yoti.test.model.RequestCleaning;
-import com.yoti.test.validator.CleaningValidator;
+import com.yoti.test.model.CleaningRequest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,7 +35,7 @@ public class CleaningValidatorTest {
     @ParameterizedTest(name = "Wrong request data test: {0}")
     @MethodSource("wrongRequestData")
     void wrongRequestDataTest(String json) throws JsonProcessingException {
-        RequestCleaning request = objectMapper.readValue(json, RequestCleaning.class);
+        CleaningRequest request = objectMapper.readValue(json, CleaningRequest.class);
 
         ValidateException exception = assertThrows(ValidateException.class,
             () -> cleaningValidator.validate(request));
@@ -45,7 +44,7 @@ public class CleaningValidatorTest {
     @ParameterizedTest(name = "Correct request data test: {0}")
     @MethodSource("correctRequestData")
     void correctRequestDataTest(String json) throws JsonProcessingException {
-        RequestCleaning request = objectMapper.readValue(json, RequestCleaning.class);
+        CleaningRequest request = objectMapper.readValue(json, CleaningRequest.class);
 
         cleaningValidator.validate(request);
     }
