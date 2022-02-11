@@ -1,11 +1,9 @@
 package com.yoti.test.database.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,21 +18,22 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class CleaningResultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cleaning_result_seq")
-    @SequenceGenerator(name = "cleaning_condition_seq", sequenceName = "cleaning_result_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "cleaning_result_seq", sequenceName = "cleaning_result_id_seq", allocationSize = 1)
     private Long id;
 
+    @NotNull
     @Column
     private LocalDateTime createdAt;
 
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @NotNull
+    @Column
     private String data;
 
+    @NotNull
     @OneToOne
     @JoinColumn(name = "cleaning_condition_id")
     private CleaningConditionEntity cleaningCondition;

@@ -19,7 +19,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: data
-                  type: jsonb
+                  type: text
                   constraints:
                     nullable: false
               - column:
